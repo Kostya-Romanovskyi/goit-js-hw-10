@@ -39,7 +39,7 @@ function onGetRequest() {
           </li>`;
         })
         .join('');
-      infoCountry.innerHTML = '';
+
       listCountry.insertAdjacentHTML('beforeend', listCountriesMarkup);
     }
 
@@ -55,7 +55,7 @@ function onGetRequest() {
             name => name.name
           )}</p> `;
       });
-      listCountry.innerHTML = '';
+
       infoCountry.insertAdjacentHTML('beforeend', countryMarkup);
     }
   });
