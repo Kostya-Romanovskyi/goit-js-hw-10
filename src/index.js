@@ -31,32 +31,32 @@ function onGetRequest() {
     }
 
     if (countries.length >= 2 && countries.length <= 10) {
-      countries.map(country => {
-        listCountry.insertAdjacentHTML(
-          'beforeend',
-          `<li>
+      const listCountriesMarkup = countries
+        .map(country => {
+          return `<li>
             <img src='${country.flags.svg}' alt='Flag' width="80" height="40" />
           <p>${country.name}</p>
-          </li>`
-        );
-        infoCountry.innerHTML = '';
-      });
+          </li>`;
+        })
+        .join('');
+      infoCountry.innerHTML = '';
+      listCountry.insertAdjacentHTML('beforeend', listCountriesMarkup);
     }
 
     if (countries.length === 1) {
-      countries.map(country => {
-        infoCountry.insertAdjacentHTML(
-          'beforeend',
-          `<img src='${country.flags.svg}' alt='Flag' width="100" heigth"50" />
+      const countryMarkup = countries.map(country => {
+        return `<img src='${
+          country.flags.svg
+        }' alt='Flag' width="100" heigth"50" />
           <h2>${country.name}</h2>
           <p><span>Capital:</span>${country.capital}</p> 
           <p><span>Population:</span>${country.population}</p> 
           <p><span>Laguages:</span>${country.languages.map(
             name => name.name
-          )}</p> `
-        );
-        listCountry.innerHTML = '';
+          )}</p> `;
       });
+      listCountry.innerHTML = '';
+      infoCountry.insertAdjacentHTML('beforeend', countryMarkup);
     }
   });
 }
