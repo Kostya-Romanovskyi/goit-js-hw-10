@@ -13,7 +13,7 @@ const infoCountry = document.querySelector('.country-info');
 
 let name = '';
 
-function onGetRequest() {
+async function onGetRequest() {
   name = inputField.value.trim();
 
   if (inputField.value === '') {
@@ -22,41 +22,40 @@ function onGetRequest() {
     return;
   }
 
-  fetchCountries(name).then(countries => {
-    listCountry.innerHTML = '';
-    infoCountry.innerHTML = '';
+  const countriesResponce = await fetchCountries(name);
+  listCountry.innerHTML = '';
+  infoCountry.innerHTML = '';
 
-    if (countries.length > 10) {
-      Notify.info('Too many matches found. Please enter a more specific name.');
-    }
+  if (countriesResponce.length > 10) {
+    Notify.info('Too many matches found. Please enter a more specific name.');
+  }
 
-    if (countries.length >= 2 && countries.length <= 10) {
-      const listCountriesMarkup = countries
-        .map(country => {
-          return `<li>
+  if (countriesResponce.length >= 2 && countriesResponce.length <= 10) {
+    const listCountriesMarkup = countriesResponce
+      .map(country => {
+        return `<li>
             <img src='${country.flags.svg}' alt='Flag' width="80" height="40" />
           <p>${country.name}</p>
           </li>`;
-        })
-        .join('');
+      })
+      .join('');
 
-      listCountry.insertAdjacentHTML('beforeend', listCountriesMarkup);
-    }
+    listCountry.insertAdjacentHTML('beforeend', listCountriesMarkup);
+  }
 
-    if (countries.length === 1) {
-      const countryMarkup = countries.map(country => {
-        return `<img src='${
-          country.flags.svg
-        }' alt='Flag' width="100" heigth"50" />
+  if (countriesResponce.length === 1) {
+    const countryMarkup = countriesResponce.map(country => {
+      return `<img src='${
+        country.flags.svg
+      }' alt='Flag' width="100" heigth"50" />
           <h2>${country.name}</h2>
           <p><span>Capital:</span>${country.capital}</p> 
           <p><span>Population:</span>${country.population}</p> 
           <p><span>Laguages:</span>${country.languages.map(
             name => name.name
           )}</p> `;
-      });
+    });
 
-      infoCountry.insertAdjacentHTML('beforeend', countryMarkup);
-    }
-  });
+    infoCountry.insertAdjacentHTML('beforeend', countryMarkup);
+  }
 }
